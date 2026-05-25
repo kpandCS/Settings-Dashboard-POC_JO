@@ -12,6 +12,8 @@ class SourceChip extends StatelessWidget {
 
   const SourceChip({super.key, required this.isManual});
 
+
+
   @override
   Widget build(BuildContext context) {
     final color =
