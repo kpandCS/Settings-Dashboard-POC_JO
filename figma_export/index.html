@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PocketLink POC — Screen Mockups</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  /* ── Design Tokens ── */
+  :root {
+    --brand:       #A24907;
+    --brand-lt:    #FFF0E6;
+    --brand-dark:  #6B2E03;
+    --surface:     #FFFFFF;
+    --surface-bg:  #F9FAFB;
+    --surface-hover:#EFF0F8;
+    --text:        #000000;
+    --text-2:      #5D6472;
+    --text-dis:    #9CA3AF;
+    --outline:     #E0E0E0;
+    --outline-v:   #EEEEEE;
+    --error:       #B00020;
+    --error-lt:    rgba(176,0,32,.10);
+    --green:       #2E7D32;
+    --green-lt:    #E8F5E9;
+    --blue:        #3D5A87;
+    --blue-lt:     #E8EDF5;
+    --amber:       #F59E0B;
+    --amber-lt:    #FFF8E1;
+    --purple:      #6B45C6;
+    --cyan:        #0077CC;
+    --r-sm:  8px;
+    --r-md: 12px;
+    --r-lg: 16px;
+    --r-pill:120px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: #1A1A2E;
+    min-height: 100vh;
+    padding: 40px 32px 60px;
+  }
+
+  /* ── Page Header ── */
+  .page-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .page-header h1 {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: .5px;
+  }
+  .page-header p {
+    color: rgba(255,255,255,.5);
+    font-size: 13px;
+    margin-top: 6px;
+  }
+
+  /* ── Two-phone layout ── */
+  .phones {
+    display: flex;
+    gap: 48px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .phone-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .phone-label {
+    color: rgba(255,255,255,.7);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+  }
+
+  /* ── Phone shell ── */
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: var(--surface-bg);
+    border-radius: 48px;
+    box-shadow: 0 0 0 10px #2a2a3e, 0 0 0 12px #111, 0 32px 80px rgba(0,0,0,.6);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* ── Status bar ── */
+  .status-bar {
+    height: 50px;
+    background: var(--surface-bg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    flex-shrink: 0;
+  }
+  .status-time { font-size: 15px; font-weight: 700; color: var(--text); }
+  .status-icons { display: flex; gap: 5px; align-items: center; }
+  .status-icons svg { width: 16px; height: 16px; fill: var(--text); }
+
+  /* ── App bar ── */
+  .app-bar {
+    background: var(--surface-bg);
+    padding: 6px 20px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .app-bar-title { font-size: 20px; font-weight: 700; color: var(--text); line-height:1.2; }
+  .app-bar-sub   { font-size: 12px; color: var(--text-2); }
+  .icon-btn {
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brand);
+    cursor: pointer;
+  }
+  .icon-btn svg { width: 22px; height: 22px; fill: var(--brand); }
+
+  /* ── Scrollable body ── */
+  .screen-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 16px 16px;
+    scrollbar-width: none;
+  }
+  .screen-body::-webkit-scrollbar { display: none; }
+
+  /* ── Bottom nav ── */
+  .bottom-nav {
+    height: 80px;
+    background: var(--surface);
+    border-top: 1px solid var(--outline-v);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-shrink: 0;
+    padding-bottom: 8px;
+  }
+  .nav-item {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 3px; flex: 1;
+    color: var(--text-2);
+    font-size: 11px; font-weight: 500;
+  }
+  .nav-item.active { color: var(--brand); }
+  .nav-item svg { width: 24px; height: 24px; }
+  .nav-item.active svg { fill: var(--brand); }
+  .nav-item:not(.active) svg { fill: var(--text-2); }
+
+  /* ── Section label ── */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    color: var(--brand);
+    text-transform: uppercase;
+    margin: 16px 4px 8px;
+  }
+  .section-label:first-child { margin-top: 4px; }
+
+  /* ── Card shell ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--outline);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+
+  /* ── Card header ── */
+  .card-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 16px 12px;
+  }
+  .card-icon {
+    width: 36px; height: 36px; border-radius: var(--r-sm);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .card-icon svg { width: 18px; height: 18px; }
+  .card-icon.orange { background: var(--brand-lt); }
+  .card-icon.orange svg { fill: var(--brand); }
+  .card-icon.gray   { background: var(--surface-hover); }
+  .card-icon.gray svg { fill: var(--text-2); }
+  .card-title { font-size: 14px; font-weight: 600; color: var(--text); }
+  .card-sub   { font-size: 12px; color: var(--text-2); margin-top:1px; }
+
+  .divider { height: 1px; background: var(--outline-v); }
+  .divider-indent { height: 1px; background: var(--outline-v); margin-left: 56px; }
+
+  /* ── Agenda rows ── */
+  .agenda-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 16px;
+  }
+  .agenda-row.done { opacity: .45; }
+  .agenda-icon {
+    width: 36px; height: 36px; border-radius: var(--r-sm);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .agenda-icon svg { width: 17px; height: 17px; }
+  .agenda-info { flex: 1; min-width: 0; }
+  .agenda-title {
+    font-size: 14px; font-weight: 600; color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .agenda-row.done .agenda-title { text-decoration: line-through; }
+  .agenda-proj  { font-size: 12px; color: var(--text-2); margin-top:2px; }
+  .agenda-time  { text-align: right; }
+  .agenda-time-main { font-size: 12px; font-weight: 700; color: var(--brand); }
+  .agenda-row.done .agenda-time-main { color: var(--text-2); }
+  .agenda-time-end  { font-size: 10px; color: var(--text-2); margin-top:1px; }
+  .done-tick svg { width:16px; height:16px; fill: var(--green); margin-left:6px; }
+
+  /* badge in card header */
+  .badge {
+    background: var(--brand-lt); color: var(--brand);
+    font-size: 11px; font-weight: 700;
+    padding: 3px 8px; border-radius: var(--r-pill);
+    margin-left: auto;
+  }
+
+  /* ── Hours card ── */
+  .hours-card { padding: 16px; }
+  .hours-top { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:12px; }
+  .hours-val { font-size: 28px; font-weight: 700; color: var(--text); }
+  .hours-val span { font-size: 14px; font-weight: 400; color: var(--text-2); }
+  .hours-target { font-size: 12px; color: var(--text-2); }
+  .progress-bar { height: 8px; background: var(--surface-hover); border-radius:4px; overflow:hidden; }
+  .progress-fill { height: 100%; background: var(--brand); border-radius:4px; }
+  .hours-bottom { display:flex; justify-content:space-between; margin-top:6px; }
+  .hours-bottom span { font-size: 11px; color: var(--text-2); }
+
+  /* ── KPI tiles ── */
+  .kpi-row { display:flex; gap:12px; margin-bottom:4px; }
+  .kpi-tile {
+    flex:1; background: var(--surface); border:1px solid var(--outline);
+    border-radius: var(--r-lg); padding:14px; display:flex; align-items:center; gap:12px;
+  }
+  .kpi-icon { width:40px; height:40px; border-radius:var(--r-sm); display:flex; align-items:center; justify-content:center; }
+  .kpi-icon svg { width:20px; height:20px; }
+  .kpi-val { font-size:22px; font-weight:700; color:var(--text); }
+  .kpi-lbl { font-size:11px; color:var(--text-2); margin-top:1px; }
+
+  /* ── Quick actions ── */
+  .quick-actions { padding:12px; display:flex; gap:12px; }
+  .btn-filled {
+    flex:1; background: var(--brand); color:#fff;
+    border:none; border-radius: var(--r-md);
+    padding: 12px 8px; font-size:14px; font-weight:600;
+    font-family:'Roboto',sans-serif;
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    cursor:pointer;
+  }
+  .btn-filled svg { width:16px; height:16px; fill:#fff; }
+  .btn-outline {
+    flex:1; background: transparent; color: var(--brand);
+    border: 1.5px solid var(--outline); border-radius: var(--r-md);
+    padding: 11px 8px; font-size:14px; font-weight:500;
+    font-family:'Roboto',sans-serif;
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    cursor:pointer;
+  }
+  .btn-outline svg { width:16px; height:16px; fill: var(--brand); }
+
+  /* ── Pending reports ── */
+  .report-row { padding:12px 16px; display:flex; align-items:center; gap:12px; }
+  .report-dot { width:8px; height:8px; border-radius:50%; background:var(--amber); flex-shrink:0; }
+  .report-info { flex:1; }
+  .report-id { font-size:12px; color:var(--text-2); }
+  .report-proj { font-size:14px; font-weight:600; color:var(--text); margin-top:1px; }
+  .report-meta { font-size:11px; color:var(--text-2); margin-top:2px; }
+  .report-hrs { font-size:13px; font-weight:600; color:var(--brand); }
+
+  /* ── Project rows ── */
+  .proj-row { padding:12px 16px; display:flex; align-items:center; gap:12px; }
+  .proj-avatar { width:36px; height:36px; background:var(--surface-hover); border-radius:var(--r-sm); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--text-2); flex-shrink:0; }
+  .proj-name { font-size:14px; font-weight:600; color:var(--text); }
+  .proj-meta { font-size:11px; color:var(--text-2); margin-top:2px; }
+  .proj-hrs  { font-size:13px; font-weight:600; color:var(--brand); }
+
+  /* ── Photo grid ── */
+  .photo-grid { padding:12px 16px; display:flex; gap:8px; }
+  .photo-thumb {
+    width:80px; height:80px; border-radius:var(--r-sm);
+    background: linear-gradient(135deg, var(--surface-hover) 0%, #d8dde6 100%);
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:4px;
+  }
+  .photo-thumb svg { width:24px; height:24px; fill: var(--text-dis); }
+  .photo-thumb span { font-size:10px; color:var(--text-2); }
+
+  /* ── Toggle row ── */
+  .toggle-row { display:flex; align-items:center; gap:12px; padding:14px 16px; }
+  .toggle-icon { width:36px; height:36px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .toggle-icon svg { width:20px; height:20px; fill: var(--text-2); }
+  .toggle-label { flex:1; }
+  .toggle-label-text { font-size:14px; font-weight:500; color:var(--text); }
+  .toggle-sub { font-size:12px; color:var(--text-2); margin-top:1px; }
+  /* iOS-style toggle */
+  .toggle {
+    width:50px; height:30px; border-radius:15px; flex-shrink:0;
+    position:relative; cursor:pointer;
+  }
+  .toggle.on  { background: var(--brand); }
+  .toggle.off { background: #CCC; }
+  .toggle::after {
+    content:''; position:absolute;
+    width:26px; height:26px; background:#fff;
+    border-radius:50%; top:2px;
+    transition: left .2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  }
+  .toggle.on::after  { left:22px; }
+  .toggle.off::after { left:2px; }
+
+  /* ── Language row ── */
+  .lang-row { display:flex; align-items:center; gap:12px; padding:12px 16px; }
+  .lang-icon { width:36px; height:36px; display:flex; align-items:center; justify-content:center; }
+  .lang-icon svg { width:20px; height:20px; fill: var(--text-2); }
+  .lang-label { flex:1; font-size:14px; color:var(--text); }
+  .lang-select { font-size:13px; color:var(--brand); font-weight:500; display:flex; align-items:center; gap:4px; }
+  .lang-select svg { width:14px; height:14px; fill:var(--brand); }
+
+  /* ── Smart defaults — empty state ── */
+  .learning-card { padding:20px; }
+  .learning-header { display:flex; gap:14px; align-items:flex-start; margin-bottom:20px; }
+  .sparkle-icon { width:44px; height:44px; border-radius:var(--r-md); background:var(--brand-lt); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .sparkle-icon svg { width:22px; height:22px; fill:var(--brand); }
+  .learning-title { font-size:14px; font-weight:600; color:var(--text); }
+  .learning-sub   { font-size:12px; color:var(--text-2); margin-top:2px; }
+  .dots-row { display:flex; align-items:center; gap:6px; margin-bottom:14px; }
+  .dot { height:10px; border-radius:5px; transition: width .35s; }
+  .dot.filled { width:26px; background:var(--brand); }
+  .dot.empty  { width:10px; background:var(--surface-hover); }
+  .dot-count  { font-size:12px; font-weight:600; color:var(--text-2); margin-left:6px; }
+  .learning-desc { font-size:12px; color:var(--text-2); line-height:1.5; margin-bottom:16px; }
+  .manual-link { display:flex; align-items:center; justify-content:space-between; padding:6px 0; }
+  .manual-link span { font-size:14px; font-weight:500; color:var(--brand); }
+  .manual-link svg { width:16px; height:16px; fill:var(--brand); }
+
+  /* ── License card ── */
+  .license-module-row { display:flex; align-items:center; gap:12px; padding:14px 16px; }
+  .module-icon { width:36px; height:36px; border-radius:var(--r-sm); background:var(--surface-hover); display:flex; align-items:center; justify-content:center; }
+  .module-icon svg { width:18px; height:18px; fill:var(--text-2); }
+  .module-name { flex:1; font-size:14px; font-weight:500; color:var(--text); }
+
+  /* Status chips */
+  .chip {
+    display:inline-flex; align-items:center; gap:4px;
+    padding: 5px 10px; border-radius: var(--r-pill);
+    font-size:12px; font-weight:600; font-family:'Roboto',sans-serif;
+  }
+  .chip svg { width:13px; height:13px; }
+  .chip.active  { background:var(--brand-lt);  color:var(--brand);  }
+  .chip.active svg  { fill:var(--brand);  }
+  .chip.pending { background:var(--amber-lt); color:var(--amber);  }
+  .chip.pending svg { fill:var(--amber);  }
+  .chip.none    { background:var(--surface-hover); color:var(--text-2); }
+  .chip.none svg    { fill:var(--text-2); }
+
+  /* Legend */
+  .legend { padding:10px 16px; }
+  .legend-title { font-size:10px; font-weight:700; letter-spacing:.6px; color:var(--text-2); text-transform:uppercase; margin-bottom:8px; }
+  .legend-items { display:flex; flex-wrap:wrap; gap:10px 16px; }
+  .legend-item  { display:flex; align-items:center; gap:5px; }
+  .legend-icon  { padding:3px; border-radius:4px; display:flex; align-items:center; }
+  .legend-icon svg { width:12px; height:12px; }
+  .legend-icon.orange { background:var(--brand-lt); }
+  .legend-icon.orange svg { fill:var(--brand); }
+  .legend-icon.amber  { background:var(--amber-lt); }
+  .legend-icon.amber svg  { fill:var(--amber); }
+  .legend-icon.gray   { background:var(--surface-hover); }
+  .legend-icon.gray svg   { fill:var(--text-2); }
+  .legend-text { font-size:11px; color:var(--text-2); }
+
+  /* Contact admin banner */
+  .info-banner { display:flex; align-items:flex-start; gap:8px; padding:10px 16px; }
+  .info-banner svg { width:15px; height:15px; fill:var(--text-2); flex-shrink:0; margin-top:1px; }
+  .info-banner span { font-size:12px; color:var(--text-2); }
+
+  /* ── User avatar ── */
+  .user-avatar {
+    width:32px; height:32px; border-radius:var(--r-pill);
+    border:1px solid var(--outline); background:var(--surface-hover);
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; font-weight:700; color:var(--text-2);
+    flex-shrink:0;
+  }
+
+  /* ── Dev hint ── */
+  .dev-hint { text-align:center; padding:16px 8px; font-size:11px; color:rgba(0,0,0,.25); font-style:italic; line-height:1.6; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>PocketLink POC — Screen Mockups</h1>
+  <p>EG A/S Construction BrandSync · Roboto · Material 3</p>
+</div>
+
+<div class="phones">
+
+  <!-- ════════════════════════════════════════════════════ -->
+  <!--  PHONE 1 — MY DAY TAB                               -->
+  <!-- ════════════════════════════════════════════════════ -->
+  <div class="phone-wrap">
+    <div class="phone-label">My Day</div>
+    <div class="phone">
+
+      <!-- Status bar -->
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+        </div>
+      </div>
+
+      <!-- App bar -->
+      <div class="app-bar">
+        <div>
+          <div class="app-bar-title">My Day</div>
+          <div class="app-bar-sub">Monday, 26 May</div>
+        </div>
+        <div class="icon-btn">
+          <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+        </div>
+      </div>
+
+      <!-- Screen body -->
+      <div class="screen-body">
+
+        <!-- ── Agenda for Today ── -->
+        <div class="section-label">Agenda for Today</div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon orange">
+              <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+            </div>
+            <span class="card-title">Agenda for Today</span>
+            <span class="badge">5 items</span>
+          </div>
+          <div class="divider"></div>
+
+          <!-- Row 1 — done -->
+          <div class="agenda-row done">
+            <div class="agenda-icon" style="background:rgba(162,73,7,.10)">
+              <svg viewBox="0 0 24 24" style="fill:#A24907"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            </div>
+            <div class="agenda-info">
+              <div class="agenda-title">Toolbox Talk</div>
+              <div class="agenda-proj">Strand Bolig</div>
+            </div>
+            <div class="agenda-time">
+              <div class="agenda-time-main">08:00</div>
+              <div class="agenda-time-end">08:30</div>
+            </div>
+            <div class="done-tick"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5l-4.5-4.5 1.41-1.41L10 13.67l7.59-7.59L19 7.5l-9 9z" fill="#2E7D32"/></svg></div>
+          </div>
+          <div class="divider-indent"></div>
+
+          <!-- Row 2 -->
+          <div class="agenda-row">
+            <div class="agenda-icon" style="background:rgba(0,119,204,.10)">
+              <svg viewBox="0 0 24 24" style="fill:#0077CC"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+            </div>
+            <div class="agenda-info">
+              <div class="agenda-title">Site Inspection</div>
+              <div class="agenda-proj">Lofoten Hytte</div>
+            </div>
+            <div class="agenda-time">
+              <div class="agenda-time-main">09:30</div>
+              <div class="agenda-time-end">11:00</div>
+            </div>
+          </div>
+          <div class="divider-indent"></div>
+
+          <!-- Row 3 -->
+          <div class="agenda-row">
+            <div class="agenda-icon" style="background:rgba(46,125,50,.10)">
+              <svg viewBox="0 0 24 24" style="fill:#2E7D32"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zm-.5 1.5l1.96 2.5H17V9.5h2.5zM6 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm2.22-3c-.55-.61-1.33-1-2.22-1s-1.67.39-2.22 1H3V6h12v9H8.22zM18 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
+            </div>
+            <div class="agenda-info">
+              <div class="agenda-title">Material Delivery</div>
+              <div class="agenda-proj">Bergkvist Bolig</div>
+            </div>
+            <div class="agenda-time">
+              <div class="agenda-time-main">12:00</div>
+            </div>
+          </div>
+          <div class="divider-indent"></div>
+
+          <!-- Row 4 -->
+          <div class="agenda-row">
+            <div class="agenda-icon" style="background:rgba(107,69,198,.10)">
+              <svg viewBox="0 0 24 24" style="fill:#6B45C6"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            </div>
+            <div class="agenda-info">
+              <div class="agenda-title">Client Walk-Through</div>
+              <div class="agenda-proj">Strand Bolig</div>
+            </div>
+            <div class="agenda-time">
+              <div class="agenda-time-main">13:30</div>
+              <div class="agenda-time-end">14:30</div>
+            </div>
+          </div>
+          <div class="divider-indent"></div>
+
+          <!-- Row 5 -->
+          <div class="agenda-row">
+            <div class="agenda-icon" style="background:rgba(176,0,32,.10)">
+              <svg viewBox="0 0 24 24" style="fill:#B00020"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+            </div>
+            <div class="agenda-info">
+              <div class="agenda-title">Work Report Due</div>
+              <div class="agenda-proj">WR-2041</div>
+            </div>
+            <div class="agenda-time">
+              <div class="agenda-time-main">15:00</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Hours ── -->
+        <div style="height:20px"></div>
+        <div class="card">
+          <div class="hours-card">
+            <div class="hours-top">
+              <div>
+                <div class="hours-val">4.5 <span>hrs logged</span></div>
+              </div>
+              <div class="hours-target">Target: 7.5 hrs</div>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+            <div class="hours-bottom">
+              <span>3 hrs remaining</span>
+              <span>3 photos today</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── KPI tiles ── -->
+        <div style="height:12px"></div>
+        <div class="kpi-row">
+          <div class="kpi-tile">
+            <div class="kpi-icon" style="background:var(--brand-lt)">
+              <svg viewBox="0 0 24 24" style="fill:var(--brand)"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+            </div>
+            <div>
+              <div class="kpi-val">4</div>
+              <div class="kpi-lbl">Active Projects</div>
+            </div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-icon" style="background:var(--amber-lt)">
+              <svg viewBox="0 0 24 24" style="fill:var(--amber)"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+            </div>
+            <div>
+              <div class="kpi-val">2</div>
+              <div class="kpi-lbl">Pending Signatures</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Quick Actions ── -->
+        <div class="section-label">Quick Actions</div>
+        <div class="card">
+          <div class="quick-actions">
+            <button class="btn-filled">
+              <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+              Work Report
+            </button>
+            <button class="btn-outline">
+              <svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 0 1 8.8 12 3.2 3.2 0 0 1 12 8.8 3.2 3.2 0 0 1 15.2 12 3.2 3.2 0 0 1 12 15.2M12 7a5 5 0 0 0-5 5 5 5 0 0 0 5 5 5 5 0 0 0 5-5 5 5 0 0 0-5-5m0-7L8.5 3.5H4c-1.1 0-2 .9-2 2v15c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5.5c0-1.1-.9-2-2-2h-4.5L12 0z"/></svg>
+              Photos
+            </button>
+          </div>
+        </div>
+
+        <!-- ── Pending Signatures ── -->
+        <div class="section-label">Pending Signatures</div>
+        <div class="card">
+          <div class="report-row">
+            <div class="report-dot"></div>
+            <div class="report-info">
+              <div class="report-id">WR-2041 · Today, 09:14</div>
+              <div class="report-proj">Strand Bolig</div>
+              <div class="report-meta">2.5 hrs · 4 materials</div>
+            </div>
+            <div class="report-hrs">2.5h</div>
+          </div>
+          <div class="divider-indent"></div>
+          <div class="report-row">
+            <div class="report-dot"></div>
+            <div class="report-info">
+              <div class="report-id">WR-2039 · Today, 07:30</div>
+              <div class="report-proj">Lofoten Hytte</div>
+              <div class="report-meta">2.0 hrs · 2 materials</div>
+            </div>
+            <div class="report-hrs">2.0h</div>
+          </div>
+        </div>
+
+        <!-- ── Active Projects ── -->
+        <div class="section-label">Active Projects</div>
+        <div class="card">
+          <div class="proj-row">
+            <div class="proj-avatar">SB</div>
+            <div style="flex:1">
+              <div class="proj-name">Strand Bolig</div>
+              <div class="proj-meta">12 reports · Under Arbeid</div>
+            </div>
+            <div class="proj-hrs">38.5h</div>
+          </div>
+          <div class="divider-indent"></div>
+          <div class="proj-row">
+            <div class="proj-avatar">BB</div>
+            <div style="flex:1">
+              <div class="proj-name">Bergkvist Bolig</div>
+              <div class="proj-meta">7 reports · Under Arbeid</div>
+            </div>
+            <div class="proj-hrs">21.0h</div>
+          </div>
+          <div class="divider-indent"></div>
+          <div class="proj-row">
+            <div class="proj-avatar">LH</div>
+            <div style="flex:1">
+              <div class="proj-name">Lofoten Hytte</div>
+              <div class="proj-meta">5 reports · Under Arbeid</div>
+            </div>
+            <div class="proj-hrs">14.0h</div>
+          </div>
+        </div>
+
+        <!-- ── Photos Today ── -->
+        <div class="section-label">Photos Today</div>
+        <div class="card">
+          <div class="photo-grid">
+            <div class="photo-thumb">
+              <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+              <span>2h ago</span>
+            </div>
+            <div class="photo-thumb">
+              <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+              <span>2h ago</span>
+            </div>
+            <div class="photo-thumb">
+              <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+              <span>4h ago</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:16px"></div>
+      </div><!-- end screen-body -->
+
+      <!-- Bottom nav -->
+      <div class="bottom-nav">
+        <div class="nav-item active">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          My Day
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+          Settings
+        </div>
+      </div>
+
+    </div><!-- end phone -->
+  </div><!-- end phone-wrap -->
+
+
+  <!-- ════════════════════════════════════════════════════ -->
+  <!--  PHONE 2 — SETTINGS TAB                             -->
+  <!-- ════════════════════════════════════════════════════ -->
+  <div class="phone-wrap">
+    <div class="phone-label">Settings</div>
+    <div class="phone">
+
+      <!-- Status bar -->
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+        </div>
+      </div>
+
+      <!-- App bar -->
+      <div class="app-bar">
+        <div class="app-bar-title">Settings</div>
+        <div class="icon-btn">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+        </div>
+      </div>
+
+      <!-- Screen body -->
+      <div class="screen-body">
+
+        <!-- ── Smart Defaults ── -->
+        <div class="section-label">Smart Defaults</div>
+        <div class="card">
+          <div class="learning-card">
+            <div class="learning-header">
+              <div class="sparkle-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 1l2.5 6.5L21 10l-6.5 2.5L12 19l-2.5-6.5L3 10l6.5-2.5z"/></svg>
+              </div>
+              <div>
+                <div class="learning-title">JobOffice is learning</div>
+                <div class="learning-sub">your work patterns</div>
+              </div>
+            </div>
+            <div class="dots-row">
+              <div class="dot filled"></div>
+              <div class="dot filled"></div>
+              <div class="dot filled"></div>
+              <div class="dot empty"></div>
+              <div class="dot empty"></div>
+              <span class="dot-count">3 of 5 reports</span>
+            </div>
+            <div class="learning-desc">Create 2 more work reports and JobOffice will suggest your smart defaults automatically.</div>
+            <div class="divider"></div>
+            <div style="height:4px"></div>
+            <div class="manual-link">
+              <span>Set defaults manually instead</span>
+              <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Holetportalen Access ── -->
+        <div class="section-label">Holetportalen Access</div>
+        <div class="card">
+          <!-- Header -->
+          <div class="card-header">
+            <div class="card-icon orange">
+              <svg viewBox="0 0 24 24"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+            </div>
+            <div style="flex:1">
+              <div class="card-title">My Holetportalen Access</div>
+              <div class="card-sub">Kari Pedersen</div>
+            </div>
+            <div class="user-avatar">KP</div>
+          </div>
+          <div class="divider"></div>
+
+          <!-- Checklist row -->
+          <div class="license-module-row">
+            <div class="module-icon">
+              <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <div class="module-name">Checklist</div>
+            <div class="chip active">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5l-4.5-4.5 1.41-1.41L10 13.67l7.59-7.59L19 7.5l-9 9z"/></svg>
+              Active
+            </div>
+          </div>
+          <div class="divider-indent"></div>
+
+          <!-- Forms row -->
+          <div class="license-module-row">
+            <div class="module-icon">
+              <svg viewBox="0 0 24 24"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z"/></svg>
+            </div>
+            <div class="module-name">Forms</div>
+            <div class="chip pending">
+              <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+              Pending
+            </div>
+          </div>
+          <div class="divider"></div>
+
+          <!-- Legend -->
+          <div class="legend">
+            <div class="legend-title">Status key</div>
+            <div class="legend-items">
+              <div class="legend-item">
+                <div class="legend-icon orange"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5l-4.5-4.5 1.41-1.41L10 13.67l7.59-7.59L19 7.5l-9 9z"/></svg></div>
+                <span class="legend-text">Active — ready to use</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-icon amber"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div>
+                <span class="legend-text">Pending — awaiting activation</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-icon gray"><svg viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg></div>
+                <span class="legend-text">Not licensed — contact admin</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Info banner — pending -->
+          <div class="divider"></div>
+          <div class="info-banner">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <span>Contact your admin to activate missing modules.</span>
+          </div>
+        </div>
+
+        <!-- ── Notifications ── -->
+        <div class="section-label">Notifications</div>
+        <div class="card">
+          <div class="toggle-row">
+            <div class="toggle-icon"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></div>
+            <div class="toggle-label">
+              <div class="toggle-label-text">Daily reminder to log hours</div>
+              <div class="toggle-sub">Reminds you at 15:30 if no hours are logged</div>
+            </div>
+            <div class="toggle off"></div>
+          </div>
+          <div class="divider-indent"></div>
+          <div class="toggle-row">
+            <div class="toggle-icon"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg></div>
+            <div class="toggle-label">
+              <div class="toggle-label-text">Project deadline alerts</div>
+              <div class="toggle-sub">Alert 3 days before a project deadline</div>
+            </div>
+            <div class="toggle off"></div>
+          </div>
+        </div>
+
+        <!-- ── AI Assistant ── -->
+        <div class="section-label">AI Assistant</div>
+        <div class="card">
+          <div class="toggle-row">
+            <div class="toggle-icon"><svg viewBox="0 0 24 24"><path d="M12 1l2.5 6.5L21 10l-6.5 2.5L12 19l-2.5-6.5L3 10l6.5-2.5z"/></svg></div>
+            <div class="toggle-label">
+              <div class="toggle-label-text">Alpha Support</div>
+              <div class="toggle-sub">Helps in Onboarding</div>
+            </div>
+            <div class="toggle on"></div>
+          </div>
+          <div class="divider-indent"></div>
+          <div class="toggle-row">
+            <div class="toggle-icon"><svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 0 1 8.8 12 3.2 3.2 0 0 1 12 8.8 3.2 3.2 0 0 1 15.2 12 3.2 3.2 0 0 1 12 15.2M12 7a5 5 0 0 0-5 5 5 5 0 0 0 5 5 5 5 0 0 0 5-5 5 5 0 0 0-5-5m0-7L8.5 3.5H4c-1.1 0-2 .9-2 2v15c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5.5c0-1.1-.9-2-2-2h-4.5L12 0z"/></svg></div>
+            <div class="toggle-label">
+              <div class="toggle-label-text">Time List — Intelligent Timesheet</div>
+              <div class="toggle-sub">AI-powered timesheet that detects and fills gaps</div>
+            </div>
+            <div class="toggle on"></div>
+          </div>
+          <div class="divider-indent"></div>
+          <div class="lang-row">
+            <div class="lang-icon"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg></div>
+            <span class="lang-label">Language</span>
+            <div class="lang-select">Norwegian Bokmål <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></div>
+          </div>
+        </div>
+
+        <!-- Dev hint -->
+        <div class="dev-hint">Tap + in the top bar to simulate a work report<br>and watch the learning progress animate.</div>
+
+        <div style="height:16px"></div>
+      </div><!-- end screen-body -->
+
+      <!-- Bottom nav -->
+      <div class="bottom-nav">
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          My Day
+        </div>
+        <div class="nav-item active">
+          <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+          Settings
+        </div>
+      </div>
+
+    </div><!-- end phone -->
+  </div><!-- end phone-wrap -->
+
+</div><!-- end phones -->
+
+</body>
+</html>
