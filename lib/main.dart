@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'view/screens/dashboard_screen.dart';
 import 'view/screens/settings_screen.dart';
+import 'view/screens/time_list_screen.dart';
 import 'viewmodel/dashboard_viewmodel.dart';
 import 'viewmodel/settings_viewmodel.dart';
 
@@ -45,6 +46,7 @@ class _AppShellState extends State<AppShell> {
 
   static const _screens = <Widget>[
     DashboardScreen(),
+    TimeListScreen(),
     SettingsScreen(),
   ];
 
@@ -60,6 +62,11 @@ class _AppShellState extends State<AppShell> {
             icon: Icon(PhosphorIcons.house(PhosphorIconsStyle.regular)),
             selectedIcon: Icon(PhosphorIcons.house(PhosphorIconsStyle.fill)),
             label: 'My Day',
+          ),
+          NavigationDestination(
+            icon: Icon(PhosphorIcons.clockCounterClockwise(PhosphorIconsStyle.regular)),
+            selectedIcon: Icon(PhosphorIcons.clockCounterClockwise(PhosphorIconsStyle.fill)),
+            label: 'Time List',
           ),
           NavigationDestination(
             icon: Icon(PhosphorIcons.gear(PhosphorIconsStyle.regular)),
