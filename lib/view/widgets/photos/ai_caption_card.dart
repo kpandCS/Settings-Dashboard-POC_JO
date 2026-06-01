@@ -5,8 +5,8 @@ import '../../../model/photo_entry.dart';
 
 /// Orange insight card shown after AI analysis completes.
 ///
-/// Displays the sparkle icon, "AI-forslag" header, the Norwegian caption,
-/// and a "Kopiert til beskrivelse" confirmation note.
+/// Displays the sparkle icon, "AI Suggestion" header, the caption,
+/// and a "Copied to description" confirmation note.
 /// Also hosts the FDV chip and category toggle via [extra] slot.
 class AiCaptionCard extends StatelessWidget {
   final AiCaptionResult result;
@@ -44,7 +44,7 @@ class AiCaptionCard extends StatelessWidget {
               ),
               const SizedBox(width: 5),
               Text(
-                'AI-forslag',
+                'AI Suggestion',
                 style: theme.textTheme.labelMedium?.copyWith(
                   color: AppColors.brandOrange,
                   fontSize: 11,
@@ -52,7 +52,7 @@ class AiCaptionCard extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                'Kopiert til beskrivelse',
+                'Copied to description',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: AppColors.brandOrange.withValues(alpha: 0.7),
                   fontSize: 10,
@@ -138,7 +138,7 @@ class _AiAnalyzingCardState extends State<AiAnalyzingCard>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Analyserer bilde…',
+                  'Analysing photo…',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: AppColors.brandOrange,
                     fontWeight: FontWeight.w600,
@@ -146,7 +146,7 @@ class _AiAnalyzingCardState extends State<AiAnalyzingCard>
                 ),
                 const SizedBox(height: 3),
                 Text(
-                  'KI genererer norsk bildetekst og sjekker FDV-relevans',
+                  'AI generating caption and checking O&M documentation relevance',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: AppColors.brandOrangeDark,
                     fontSize: 11,

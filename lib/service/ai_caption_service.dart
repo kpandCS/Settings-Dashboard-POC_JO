@@ -45,13 +45,14 @@ import '../model/photo_entry.dart';
 // );
 //
 // PROMPT TEMPLATE:
-// "Du er ${trade.displayName} på prosjekt '$projectName'.
-//  Se på dette bildet og svar KUN med gyldig JSON:
-//  { \"caption\": \"<1 setning norsk beskrivelse>\",
+// "You are a ${trade.displayName} on project '$projectName'.
+//  Look at this image and respond ONLY with valid JSON:
+//  { \"caption\": \"<1 sentence English description>\",
 //    \"likelyFdv\": <true|false>,
-//    \"fdvReason\": \"<kort norsk grunn, tom string hvis false>\" }
-//  FDV = sant hvis bildet viser installert teknisk utstyr, rør, el-anlegg,
-//  konstruksjonsdetaljer som kreves i FDV-permen per TEK17."
+//    \"fdvReason\": \"<short English reason, empty string if false>\" }
+//  likelyFdv = true if the photo shows installed technical equipment,
+//  pipework, electrical systems or construction details required in the
+//  O&M (Operations & Maintenance) documentation file per TEK17."
 //
 // COST NOTE:
 // Vision calls cost ~1 000–2 000 tokens per image at current Anthropic pricing.

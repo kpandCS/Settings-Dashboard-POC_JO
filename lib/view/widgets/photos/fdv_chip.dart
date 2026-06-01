@@ -3,12 +3,12 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../../../core/theme/app_theme.dart';
 
 /// Green badge shown when the AI determines the photo qualifies as
-/// FDV (Forvaltning, Drift og Vedlikehold) documentation.
+/// O&M (Operations & Maintenance / FDV) documentation.
 ///
-/// Mirrors the "Kan brukes som FDV-dokumentasjon" chip from the spec.
-/// Worker can tap to learn more; upload category is pre-set to Documentation (4).
+/// Worker can tap the info icon to learn more; upload category is
+/// pre-set to Documentation (4) automatically.
 class FdvChip extends StatelessWidget {
-  /// Short reason from Claude, e.g. "Rørinstallasjon" or "El-anlegg dokumentasjon".
+  /// Short reason from Claude, e.g. "Pipe installation" or "Electrical system".
   final String reason;
 
   /// Called when the info icon is tapped — show a tooltip / bottom sheet in production.
@@ -44,7 +44,7 @@ class FdvChip extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Kan brukes som FDV-dokumentasjon',
+                  'Suitable for O&M documentation (FDV)',
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,

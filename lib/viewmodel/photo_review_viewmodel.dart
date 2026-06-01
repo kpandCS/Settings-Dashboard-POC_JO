@@ -15,7 +15,7 @@ enum PhotoReviewState {
   /// AI result received — caption + FDV result visible.
   ready,
 
-  /// User tapped "Last opp" — upload in progress.
+  /// User tapped "Upload" — upload in progress.
   uploading,
 
   /// Upload complete — success state shown.
@@ -81,7 +81,7 @@ class PhotoReviewViewModel extends ChangeNotifier {
 
       _state = PhotoReviewState.ready;
     } catch (e) {
-      _errorMessage = 'KI-analyse mislyktes. Skriv inn beskrivelse manuelt.';
+      _errorMessage = 'AI analysis failed. Please enter a description manually.';
       _state = PhotoReviewState.ready; // still let them upload manually
     }
 
@@ -95,7 +95,7 @@ class PhotoReviewViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Worker taps "Last opp" — simulates POST /api/v1/projectFile.
+  /// Worker taps "Upload" — simulates POST /api/v1/projectFile.
   ///
   /// Production payload:
   /// {

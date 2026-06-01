@@ -12,7 +12,7 @@ import '../widgets/photos/fdv_chip.dart';
 /// Production flow:
 ///   PhotoCameraReviewPage captures image → navigates here with Base64 bytes
 ///   → AI analysis runs in background → caption pre-fills description field
-///   → worker accepts/edits → taps "Last opp" → POST /api/v1/projectFile
+///   → worker accepts/edits → taps "Upload" → POST /api/v1/projectFile
 ///
 /// POC flow (identical UI, no real camera or API):
 ///   PhotoScenarioPicker → PhotoReviewScreen(scenario) → simulated analysis
@@ -65,7 +65,7 @@ class _PhotoReviewViewState extends State<_PhotoReviewView> {
       backgroundColor: AppColors.surfaceContainer,
       appBar: AppBar(
         title: Text(
-          'Gjennomse bilde',
+          'Review Photo',
           style: theme.textTheme.titleMedium,
         ),
         leading: IconButton(
@@ -144,7 +144,7 @@ class _PhotoReviewViewState extends State<_PhotoReviewView> {
 
             // ── Description field ─────────────────────────────────────
             Text(
-              'Beskrivelse',
+              'Description',
               style: theme.textTheme.bodyMedium
                   ?.copyWith(fontWeight: FontWeight.w600),
             ),
@@ -155,7 +155,7 @@ class _PhotoReviewViewState extends State<_PhotoReviewView> {
               minLines: 3,
               textInputAction: TextInputAction.done,
               decoration: const InputDecoration(
-                hintText: 'Beskriv hva bildet viser…',
+                hintText: 'Describe what the photo shows…',
               ),
             ),
 
@@ -172,7 +172,7 @@ class _PhotoReviewViewState extends State<_PhotoReviewView> {
                   ),
                   const SizedBox(width: 5),
                   Text(
-                    'Kategori: ${vm.selectedCategory.label}',
+                    'Category: ${vm.selectedCategory.label}',
                     style: theme.textTheme.bodySmall,
                   ),
                 ],
@@ -196,7 +196,7 @@ class _PhotoReviewViewState extends State<_PhotoReviewView> {
                     )
                   : Icon(PhosphorIcons.cloudArrowUp(PhosphorIconsStyle.bold),
                       size: 18),
-              label: Text(vm.isUploading ? 'Laster opp…' : 'Last opp'),
+              label: Text(vm.isUploading ? 'Uploading…' : 'Upload'),
             ),
 
             const SizedBox(height: 12),
@@ -218,21 +218,23 @@ class _PhotoReviewViewState extends State<_PhotoReviewView> {
             Icon(PhosphorIcons.checkCircle(PhosphorIconsStyle.fill),
                 color: AppColors.successGreen, size: 20),
             const SizedBox(width: 8),
-            const Text('Hva er FDV-dokumentasjon?'),
+            const Text('What is O&M documentation?'),
           ],
         ),
         content: const Text(
-          'FDV = Forvaltning, Drift og Vedlikehold.\n\n'
-          'Bilder av installert teknisk utstyr, rørarbeid, el-anlegg og '
-          'konstruksjonsdetaljer skal arkiveres i FDV-permen per TEK17.\n\n'
-          'KI har identifisert at dette bildet sannsynligvis er FDV-relevant '
-          'og har forhåndsvalgt kategori Dokumentasjon (4). '
-          'Du kan endre kategorien manuelt.',
+          'O&M = Operations & Maintenance (FDV in Norwegian: Forvaltning, '
+          'Drift og Vedlikehold).\n\n'
+          'Photos of installed technical equipment, pipework, electrical '
+          'systems and construction details must be archived in the O&M '
+          'documentation file per TEK17 building regulations.\n\n'
+          'The AI has identified this photo as likely O&M-relevant and '
+          'has pre-selected category Documentation (4). '
+          'You can change the category manually.',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Forstått'),
+            child: const Text('Got it'),
           ),
         ],
       ),
@@ -309,7 +311,7 @@ class _PhotoPlaceholder extends StatelessWidget {
                     borderRadius: BorderRadius.circular(AppRadius.pill),
                   ),
                   child: const Text(
-                    'DEMO BILDE',
+                    'DEMO PHOTO',
                     style: TextStyle(
                       fontSize: 9,
                       color: Colors.white60,
@@ -419,7 +421,7 @@ class _CategoryToggle extends StatelessWidget {
         ),
         const SizedBox(width: 6),
         Text(
-          'Kategori:',
+          'Category:',
           style: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
@@ -542,7 +544,7 @@ class _UploadSuccessScreen extends StatelessWidget {
               const SizedBox(height: 24),
 
               Text(
-                'Bilde lastet opp!',
+                'Photo uploaded!',
                 style: theme.textTheme.titleLarge,
                 textAlign: TextAlign.center,
               ),
@@ -550,7 +552,7 @@ class _UploadSuccessScreen extends StatelessWidget {
               const SizedBox(height: 8),
 
               Text(
-                'Lagret på ${scenario.projectName}',
+                'Saved to ${scenario.projectName}',
                 style: theme.textTheme.bodyMedium
                     ?.copyWith(color: AppColors.textSecondary),
                 textAlign: TextAlign.center,
@@ -578,7 +580,7 @@ class _UploadSuccessScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        'Kategorisert som FDV-dokumentasjon',
+                        'Categorised as O&M documentation (FDV)',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
@@ -598,7 +600,7 @@ class _UploadSuccessScreen extends StatelessWidget {
                   PhosphorIcons.house(PhosphorIconsStyle.fill),
                   size: 16,
                 ),
-                label: const Text('Tilbake til Min Dag'),
+                label: const Text('Back to My Day'),
               ),
             ],
           ),
@@ -633,8 +635,8 @@ class _ApiHint extends StatelessWidget {
           const SizedBox(width: 7),
           Expanded(
             child: Text(
-              'AI: POST /v1/messages (Anthropic) — Base64 bilde + prosjektkontekst\n'
-              'Upload: POST /api/v1/projectFile — uendret, kun description + fileCategory pre-fylt',
+              'AI: POST /v1/messages (Anthropic) — Base64 image + project context\n'
+              'Upload: POST /api/v1/projectFile — unchanged; description + fileCategory pre-filled by AI',
               style: theme.textTheme.bodySmall?.copyWith(
                 fontSize: 10,
                 fontFamily: 'monospace',

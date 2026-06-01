@@ -26,7 +26,7 @@ enum ProjectFileCategory {
 extension ProjectFileCategoryX on ProjectFileCategory {
   /// Norwegian display label shown in the category toggle.
   String get label =>
-      this == ProjectFileCategory.photo ? 'Bilde (2)' : 'Dokumentasjon (4)';
+      this == ProjectFileCategory.photo ? 'Photo (2)' : 'Documentation (4)';
 
   /// Backend integer value sent to POST /api/v1/projectFile.
   int get backendValue =>
@@ -42,11 +42,11 @@ extension TradeTypeX on TradeType {
   String get displayName {
     switch (this) {
       case TradeType.vvs:
-        return 'VVS-montør';
+        return 'Plumber';
       case TradeType.elektriker:
-        return 'Elektriker';
+        return 'Electrician';
       case TradeType.general:
-        return 'Håndverker';
+        return 'Tradesperson';
     }
   }
 }
@@ -55,13 +55,13 @@ extension TradeTypeX on TradeType {
 // AiCaptionResult — what Claude would return
 // ---------------------------------------------------------------------------
 class AiCaptionResult {
-  /// One-sentence Norwegian description of the photo.
+  /// One-sentence English description of the photo.
   final String caption;
 
   /// True when the photo likely qualifies as FDV documentation.
   final bool likelyFdv;
 
-  /// Short Norwegian reason shown inside the FDV chip.
+  /// Short reason shown inside the O&M chip, e.g. "Pipe installation".
   final String fdvReason;
 
   /// Suggested upload category driven by likelyFdv.
@@ -81,7 +81,7 @@ class AiCaptionResult {
 // ---------------------------------------------------------------------------
 class MockPhotoScenario {
   final String id;
-  final String title;          // short Norwegian title shown in picker
+  final String title;          // short title shown in picker
   final String projectName;
   final TradeType trade;
   final Color thumbnailColor;  // placeholder background colour
@@ -105,47 +105,47 @@ class MockPhotoScenario {
 
   static final pipe = MockPhotoScenario(
     id: 'sc-1',
-    title: 'Røropplegg kjøkken',
+    title: 'Kitchen Pipe Installation',
     projectName: 'Strand Bolig',
     trade: TradeType.vvs,
     thumbnailColor: const Color(0xFF1565C0),
     icon: PhosphorIcons.pipe(PhosphorIconsStyle.regular),
-    location: 'Kjøkken, 2. etg',
+    location: 'Kitchen, 2nd floor',
     aiResult: const AiCaptionResult(
       caption:
-          'Ferdig montert røropplegg i kjøkkenvegg, klar for tetting og flislegging.',
+          'Completed pipe installation in kitchen wall — ready for sealing and tiling.',
       likelyFdv: true,
-      fdvReason: 'Rørinstallasjon',
+      fdvReason: 'Pipe installation',
     ),
   );
 
   static final electrical = MockPhotoScenario(
     id: 'sc-2',
-    title: 'Elektrisk fordelerskap',
+    title: 'Electrical Panel',
     projectName: 'Bergkvist Bolig',
     trade: TradeType.elektriker,
     thumbnailColor: const Color(0xFFE65100),
     icon: PhosphorIcons.lightning(PhosphorIconsStyle.regular),
-    location: 'Teknisk rom, 1. etg',
+    location: 'Technical room, 1st floor',
     aiResult: const AiCaptionResult(
       caption:
-          'Ny elektrisk fordelerskap installert i teknisk rom — alle kurser merket og koblet.',
+          'New electrical distribution board installed in technical room — all circuits labelled and connected.',
       likelyFdv: true,
-      fdvReason: 'El-anlegg dokumentasjon',
+      fdvReason: 'Electrical system',
     ),
   );
 
   static final overview = MockPhotoScenario(
     id: 'sc-3',
-    title: 'Byggeplass oversikt',
+    title: 'Site Overview',
     projectName: 'Lofoten Hytte',
     trade: TradeType.general,
     thumbnailColor: const Color(0xFF37474F),
     icon: PhosphorIcons.buildings(PhosphorIconsStyle.regular),
-    location: 'Utendørs, nordside',
+    location: 'Outdoor, north side',
     aiResult: const AiCaptionResult(
       caption:
-          'Oversiktsbilde av byggeplass uke 21 — grunnarbeid pågår, forskalingselementer på plass.',
+          'Site overview week 21 — groundworks in progress, formwork elements in position.',
       likelyFdv: false,
       fdvReason: '',
     ),
@@ -153,15 +153,15 @@ class MockPhotoScenario {
 
   static final delivery = MockPhotoScenario(
     id: 'sc-4',
-    title: 'Materiallevering',
+    title: 'Material Delivery',
     projectName: 'Bergkvist Bolig',
     trade: TradeType.general,
     thumbnailColor: const Color(0xFF4E342E),
     icon: PhosphorIcons.package(PhosphorIconsStyle.regular),
-    location: 'Inngangsparti',
+    location: 'Entrance area',
     aiResult: const AiCaptionResult(
       caption:
-          'Levering av 45 isolasjonsplater à 50 mm — kontrollert mot følgeseddel og godkjent.',
+          'Delivery of 45 insulation boards (50 mm) — verified against delivery note and approved.',
       likelyFdv: false,
       fdvReason: '',
     ),

@@ -59,14 +59,14 @@ class PhotoScenarioPicker extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'Velg scenario (POC-demo)',
+                'Select scenario (POC demo)',
                 style: theme.textTheme.titleSmall,
               ),
             ],
           ),
           const SizedBox(height: 4),
           Text(
-            'I produksjon åpnes dette direkte etter kamerabildet er tatt.',
+            'In production this opens directly after the camera captures an image.',
             style: theme.textTheme.bodySmall,
           ),
           const SizedBox(height: 14),
