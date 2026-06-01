@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../model/agenda_item.dart';
 import '../../viewmodel/dashboard_viewmodel.dart';
+import '../widgets/photos/photo_scenario_picker.dart';
+import 'photo_review_screen.dart';
 import '../widgets/dashboard/active_projects_card.dart';
 import '../widgets/dashboard/hours_card.dart';
 import '../widgets/dashboard/pending_reports_card.dart';
@@ -116,7 +118,7 @@ class DashboardScreen extends StatelessWidget {
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: OutlinedButton.icon(
-                                    onPressed: () {},
+                                    onPressed: () => _openPhotos(context),
                                     icon: Icon(
                                       PhosphorIcons.camera(
                                           PhosphorIconsStyle.regular),
@@ -153,6 +155,16 @@ class DashboardScreen extends StatelessWidget {
                 ),
         );
       },
+    );
+  }
+
+  Future<void> _openPhotos(BuildContext context) async {
+    final scenario = await PhotoScenarioPicker.show(context);
+    if (scenario == null || !context.mounted) return;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => PhotoReviewScreen(scenario: scenario),
+      ),
     );
   }
 
