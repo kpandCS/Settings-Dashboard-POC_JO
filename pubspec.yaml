@@ -45,6 +45,9 @@ dependencies:
   # Typography
   google_fonts: ^6.2.1
 
+  # On-device speech recognition for in-app voice time registration
+  speech_to_text: ^7.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

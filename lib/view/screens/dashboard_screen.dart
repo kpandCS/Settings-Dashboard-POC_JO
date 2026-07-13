@@ -9,6 +9,7 @@ import '../widgets/dashboard/hours_card.dart';
 import '../widgets/dashboard/pending_reports_card.dart';
 import '../widgets/dashboard/recent_photos_card.dart';
 import '../widgets/dashboard/stat_tile.dart';
+import '../widgets/dashboard/voice_time_sheet.dart';
 import '../widgets/settings/agenda_card.dart';
 import '../widgets/settings/settings_card.dart';
 
@@ -44,6 +45,11 @@ class DashboardScreen extends StatelessWidget {
                 onPressed: vm.isRefreshing ? null : vm.refresh,
               ),
             ],
+          ),
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () => showVoiceTimeSheet(context),
+            icon: Icon(PhosphorIcons.microphone(PhosphorIconsStyle.fill)),
+            label: const Text('Voice Log'),
           ),
           body: vm.isRefreshing
               ? const Center(child: CircularProgressIndicator())

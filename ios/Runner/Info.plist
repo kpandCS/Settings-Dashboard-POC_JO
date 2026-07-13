@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>PocketLink uses the microphone so you can log work hours by voice.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>PocketLink uses speech recognition to turn what you say into a work hours entry.</string>
 </dict>
 </plist>
